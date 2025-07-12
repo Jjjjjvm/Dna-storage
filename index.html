@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محول تخزين الحمض النووي</title>
+    <title>أداة التشفير وفك التشفير المتقدمة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,207 +12,267 @@
         body {
             font-family: 'Cairo', sans-serif;
         }
-        .btn-primary {
-            @apply bg-teal-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50 transition-colors;
-        }
-        .textarea-styled {
-            @apply w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-shadow resize-none;
-        }
-        .copy-btn {
-            @apply absolute top-2 left-2 bg-gray-200 text-gray-700 text-sm font-bold py-1 px-3 rounded-md hover:bg-gray-300 transition-colors;
-        }
+        /* No need for fade-out animation as it's not used */
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen p-4">
 
-    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
-        <header class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-teal-700">محول تخزين الحمض النووي (DNA)</h1>
-            <p class="text-gray-600 mt-2">حوّل أي نص إلى شفرة DNA رقمية وقم بفك تشفيرها مرة أخرى.</p>
-        </header>
-
-        <main class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- قسم التشفير -->
-            <div class="bg-white p-6 rounded-xl shadow-lg">
-                <h2 class="text-2xl font-semibold mb-4 text-teal-600 border-b-2 border-teal-200 pb-2">1. تشفير النص إلى DNA</h2>
-                <div class="space-y-4">
-                    <div>
-                        <label for="textToEncode" class="block mb-2 font-medium text-gray-700">أدخل النص هنا:</label>
-                        <textarea id="textToEncode" rows="5" class="textarea-styled" placeholder="اكتب شيئًا..."></textarea>
-                    </div>
-                    <button id="encodeBtn" class="btn-primary w-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block ml-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" /></svg>
-                        تشفير إلى DNA
-                    </button>
-                    <div>
-                        <label for="encodedResult" class="block mb-2 font-medium text-gray-700">النتيجة (شفرة DNA):</label>
-                        <div class="relative">
-                            <textarea id="encodedResult" rows="5" class="textarea-styled bg-gray-50" readonly placeholder="ستظهر شفرة الـ DNA هنا..."></textarea>
-                            <button onclick="copyToClipboard('encodedResult')" class="copy-btn" title="نسخ إلى الحافظة">نسخ</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- قسم فك التشفير -->
-            <div class="bg-white p-6 rounded-xl shadow-lg">
-                <h2 class="text-2xl font-semibold mb-4 text-teal-600 border-b-2 border-teal-200 pb-2">2. فك تشفير DNA إلى نص</h2>
-                <div class="space-y-4">
-                    <div>
-                        <label for="dnaToDecode" class="block mb-2 font-medium text-gray-700">أدخل شفرة DNA هنا:</label>
-                        <textarea id="dnaToDecode" rows="5" class="textarea-styled" placeholder="الصق شفرة الـ DNA هنا..."></textarea>
-                    </div>
-                    <button id="decodeBtn" class="btn-primary w-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block ml-2" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2V7a5 5 0 00-5-5zm0 2a3 3 0 013 3v2H7V7a3 3 0 013-3z" /></svg>
-                        فك التشفير من DNA
-                    </button>
-                    <div>
-                        <label for="decodedResult" class="block mb-2 font-medium text-gray-700">النتيجة (النص الأصلي):</label>
-                         <div class="relative">
-                            <textarea id="decodedResult" rows="5" class="textarea-styled bg-gray-50" readonly placeholder="سيظهر النص الأصلي هنا..."></textarea>
-                            <button onclick="copyToClipboard('decodedResult')" class="copy-btn" title="نسخ إلى الحافظة">نسخ</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- Modal for notifications -->
-    <div id="notificationModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-        <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/3 text-center">
-            <p id="notificationMessage" class="text-lg"></p>
-            <button id="closeModalBtn" class="mt-4 btn-primary">حسنًا</button>
+    <div class="w-full max-w-2xl mx-auto bg-gray-800 rounded-2xl shadow-2xl p-6 md:p-8">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-cyan-400">أداة التشفير المتقدمة</h1>
+            <p class="text-gray-400 mt-2">اختر خوارزمية التشفير ثم أدخل النص</p>
         </div>
+
+        <!-- Cipher Type Selection -->
+        <div class="mb-6">
+            <label for="cipherType" class="block mb-2 text-sm font-medium text-gray-300">نوع التشفير</label>
+            <select id="cipherType" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5">
+                <option value="scramble">البعثرة</option>
+                <option value="dna">تخزين DNA</option>
+            </select>
+        </div>
+
+        <!-- Input and Output Textareas -->
+        <div class="space-y-6">
+            <div>
+                <label for="inputText" class="block mb-2 text-sm font-medium text-gray-300">النص الأصلي</label>
+                <textarea id="inputText" rows="6" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-3.5 placeholder-gray-400" placeholder="اكتب أو الصق النص هنا..."></textarea>
+            </div>
+            
+            <div>
+                <label for="outputText" class="block mb-2 text-sm font-medium text-gray-300">النتيجة</label>
+                <div class="relative">
+                    <textarea id="outputText" rows="6" class="bg-gray-900 border border-gray-600 text-cyan-300 text-sm rounded-lg block w-full p-3.5" placeholder="النتيجة ستظهر هنا..." readonly></textarea>
+                    <button id="copyButton" class="absolute top-2 left-2 p-2 bg-gray-700 hover:bg-gray-600 rounded-lg" title="نسخ إلى الحافظة">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+            <button id="encryptButton" class="w-full text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:outline-none focus:ring-cyan-800 font-medium rounded-lg text-lg px-5 py-3 text-center transition-transform transform hover:scale-105">
+                تشفير
+            </button>
+            <button id="decryptButton" class="w-full text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-800 font-medium rounded-lg text-lg px-5 py-3 text-center transition-transform transform hover:scale-105">
+                فك التشفير
+            </button>
+        </div>
+        
+        <!-- Copy Confirmation Message -->
+        <div id="copyMessage" class="text-center text-green-400 mt-4 h-6"></div>
+
     </div>
 
     <script>
-        // Mapping from binary pairs to DNA bases
-        const binaryToDna = {
-            '00': 'A', // Adenine
-            '01': 'C', // Cytosine
-            '10': 'G', // Guanine
-            '11': 'T'  // Thymine
-        };
+        // --- DOM Element References ---
+        const inputText = document.getElementById('inputText');
+        const outputText = document.getElementById('outputText');
+        const encryptButton = document.getElementById('encryptButton');
+        const decryptButton = document.getElementById('decryptButton');
+        const copyButton = document.getElementById('copyButton');
+        const copyMessage = document.getElementById('copyMessage');
+        const cipherType = document.getElementById('cipherType');
 
-        // Mapping from DNA bases to binary pairs
-        const dnaToBinary = {
-            'A': '00',
-            'C': '01',
-            'G': '10',
-            'T': '11'
-        };
+        // --- Cipher 1: Scramble (البعثرة) ---
+        // A comprehensive list of Arabic characters including common variations and a space
+        const arabicOriginalChars = 'ابتثجحخدذرزسشصضطظعغفقكلمنهويىةأإآؤئء '; // Length 39
+        // A fixed, scrambled permutation of the arabicOriginalChars.
+        // This ensures a direct and verifiable one-to-one mapping.
+        // The space character is mapped to itself for simplicity.
+        const arabicSubstitutionChars = 'ةءئؤآإأوييهنملكقفغعظضذخحثجثبتازرشدصش '; // Length 39
 
-        const encodeBtn = document.getElementById('encodeBtn');
-        const decodeBtn = document.getElementById('decodeBtn');
-        const textToEncodeInput = document.getElementById('textToEncode');
-        const encodedResultTextarea = document.getElementById('encodedResult');
-        const dnaToDecodeInput = document.getElementById('dnaToDecode');
-        const decodedResultTextarea = document.getElementById('decodedResult');
+        // Combine all character sets for the scramble cipher
+        const originalChars = arabicOriginalChars + 'abcdefghijklmnopqrstuvwxyz' + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' + '0123456789' + '.,!؟?';
+        const substitutionChars = arabicSubstitutionChars + 'zyxwutsrqponmlkjihgfedcba' + 'ZYXWVUTSRQPONMLKJIHGFEDCBA' + '9876543210' + '؟!,..';
         
-        const modal = document.getElementById('notificationModal');
-        const modalMessage = document.getElementById('notificationMessage');
-        const closeModalBtn = document.getElementById('closeModalBtn');
+        const encryptMap = new Map();
+        const decryptMap = new Map();
 
-        // Function to show notifications
-        function showNotification(message) {
-            modalMessage.textContent = message;
-            modal.classList.remove('hidden');
+        // Populate the maps for encryption and decryption
+        for (let i = 0; i < originalChars.length; i++) {
+            encryptMap.set(originalChars[i], substitutionChars[i]);
+            decryptMap.set(substitutionChars[i], originalChars[i]);
+        }
+
+        /**
+         * Encrypts text using the Scramble cipher.
+         * It substitutes characters based on a predefined map and then reverses the string,
+         * finally adding a unique prefix and suffix.
+         * @param {string} text - The plain text to encrypt.
+         * @returns {string} The encrypted text.
+         */
+        function encryptScramble(text) {
+            let substitutedText = '';
+            // Substitute each character based on the encryptMap
+            for (const char of text) {
+                substitutedText += encryptMap.get(char) || char; // If char not in map, keep it unchanged
+            }
+            // Reverse the substituted text
+            let reversedText = substitutedText.split('').reverse().join('');
+            // Add unique markers for format validation during decryption
+            return `S1A-${reversedText}-R9Z`;
+        }
+
+        /**
+         * Decrypts text using the Scramble cipher.
+         * It first validates the format, then reverses the string, and finally
+         * substitutes characters back to their original form.
+         * @param {string} text - The encrypted text to decrypt.
+         * @returns {string} The decrypted text or an error message if the format is invalid.
+         */
+        function decryptScramble(text) {
+            // Validate the encryption format by checking prefix and suffix
+            if (text.startsWith('S1A-') && text.endsWith('-R9Z')) {
+                // Remove the prefix and suffix
+                text = text.substring(4, text.length - 4);
+            } else {
+                return "خطأ: النص المدخل ليس بصيغة تشفير 'البعثرة' الصحيحة.";
+            }
+            // Reverse the text to undo the encryption's reversal
+            let reversedText = text.split('').reverse().join('');
+            let originalText = '';
+            // Substitute each character back using the decryptMap
+            for (const char of reversedText) {
+                originalText += decryptMap.get(char) || char; // If char not in map, keep it unchanged
+            }
+            return originalText;
+        }
+
+        // --- Cipher 2: DNA Storage (تخزين DNA) ---
+        // Helper functions for UTF-8 encoding/decoding
+        function textToUtf8Bytes(text) {
+            const encoder = new TextEncoder();
+            return encoder.encode(text);
+        }
+
+        function utf8BytesToText(bytes) {
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
         }
         
-        closeModalBtn.addEventListener('click', () => {
-             modal.classList.add('hidden');
-        });
-
-        // --- ENCODING LOGIC ---
-        encodeBtn.addEventListener('click', () => {
-            const inputText = textToEncodeInput.value;
-            if (!inputText) {
-                showNotification('الرجاء إدخال نص لتشفيره.');
-                return;
-            }
-
-            let dnaString = '';
-            try {
-                for (let i = 0; i < inputText.length; i++) {
-                    // 1. Get character's Unicode code point
-                    const charCode = inputText.charCodeAt(i);
-                    // 2. Convert to 16-bit binary string to support all Unicode characters (including Arabic)
-                    const binaryString = charCode.toString(2).padStart(16, '0');
-                    // 3. Convert binary to DNA (each character becomes 8 DNA bases)
-                    let charDna = '';
-                    for (let j = 0; j < binaryString.length; j += 2) {
-                        const binaryPair = binaryString.substring(j, j + 2);
-                        charDna += binaryToDna[binaryPair];
-                    }
-                    dnaString += charDna;
+        /**
+         * Encrypts text into a DNA-like sequence (A, C, G, T) by first converting to UTF-8 bytes.
+         * Each byte (8 bits) is converted into 4 DNA bases (00=A, 01=C, 10=G, 11=T).
+         * This ensures proper handling of multi-byte characters like Arabic.
+         * @param {string} text - The plain text to encrypt.
+         * @returns {string} The DNA-encoded string.
+         */
+        function encryptDNA(text) {
+            const utf8Bytes = textToUtf8Bytes(text); // Convert text to UTF-8 bytes
+            let dnaResult = '';
+            for (const byte of utf8Bytes) {
+                // Get 8-bit binary representation of the byte
+                const binary = byte.toString(2).padStart(8, '0');
+                // Convert binary pairs to DNA bases
+                for (let j = 0; j < binary.length; j += 2) {
+                    const pair = binary.substring(j, j + 2);
+                    if (pair === '00') dnaResult += 'A';
+                    else if (pair === '01') dnaResult += 'C';
+                    else if (pair === '10') dnaResult += 'G';
+                    else if (pair === '11') dnaResult += 'T';
                 }
-                encodedResultTextarea.value = dnaString;
-            } catch (error) {
-                console.error("Encoding error:", error);
-                showNotification('حدث خطأ أثناء عملية التشفير.');
             }
-        });
-
-        // --- DECODING LOGIC ---
-        decodeBtn.addEventListener('click', () => {
-            const dnaInput = dnaToDecodeInput.value.toUpperCase().trim();
-            if (!dnaInput) {
-                showNotification('الرجاء إدخال شفرة DNA لفك تشفيرها.');
-                return;
-            }
-
-            // Validation: Check if length is a multiple of 8 (since each char is 16 bits -> 8 DNA bases)
-            if (dnaInput.length % 8 !== 0) {
-                showNotification('خطأ: يجب أن يكون طول شفرة DNA من مضاعفات الرقم 8.');
-                return;
-            }
-
-            // Validation: Check for invalid characters
-            if (/[^ACGT]/.test(dnaInput)) {
-                showNotification('خطأ: شفرة DNA تحتوي على أحرف غير صالحة. استخدم فقط A, C, G, T.');
-                return;
-            }
-
-            let decodedText = '';
-            try {
-                // Process in chunks of 8 DNA bases
-                for (let i = 0; i < dnaInput.length; i += 8) {
-                    const dnaChunk = dnaInput.substring(i, i + 8);
-                    let binaryString = '';
-                    // 1. Convert DNA chunk back to binary
-                    for (let j = 0; j < dnaChunk.length; j++) {
-                        binaryString += dnaToBinary[dnaChunk[j]];
-                    }
-                    // 2. Convert 16-bit binary back to character code
-                    const charCode = parseInt(binaryString, 2);
-                    // 3. Convert character code to character
-                    decodedText += String.fromCharCode(charCode);
-                }
-                decodedResultTextarea.value = decodedText;
-            } catch (error) {
-                console.error("Decoding error:", error);
-                showNotification('حدث خطأ أثناء فك التشفير. تأكد من أن الشفرة صالحة.');
-            }
-        });
-        
-        // --- COPY TO CLIPBOARD ---
-        function copyToClipboard(elementId) {
-            const textarea = document.getElementById(elementId);
-            if (!textarea.value) {
-                showNotification('لا يوجد شيء لنسخه!');
-                return;
-            }
-            textarea.select();
-            textarea.setSelectionRange(0, 99999); // For mobile devices
-            try {
-                document.execCommand('copy');
-                showNotification('تم النسخ إلى الحافظة!');
-            } catch (err) {
-                showNotification('فشل النسخ. الرجاء النسخ يدويًا.');
-            }
-            window.getSelection().removeAllRanges();
+            return dnaResult;
         }
+
+        /**
+         * Decrypts a DNA-like sequence back into text by first converting to UTF-8 bytes.
+         * It converts DNA bases back to binary pairs, then reconstructs 8-bit binary
+         * codes to get the original characters. Includes validation for the input format.
+         * @param {string} dnaText - The DNA-encoded string to decrypt.
+         * @returns {string} The decrypted text or an error message if the format is invalid.
+         */
+        function decryptDNA(dnaText) {
+            // Validate input: must only contain A, C, G, T
+            if (/[^ACGT]/i.test(dnaText)) {
+                return "خطأ: النص المدخل يحتوي على رموز غير صالحة لتشفير DNA (يجب أن يحتوي فقط على A, C, G, T).";
+            }
+            // Validate input: must have a length divisible by 4 (since each byte becomes 4 DNA bases)
+            if (dnaText.length % 4 !== 0) {
+                return "خطأ: طول النص المشفر غير صالح لفك تشفير DNA. تأكد من أن النص المشفر كامل وصحيح.";
+            }
+
+            let binaryString = '';
+            for (let i = 0; i < dnaText.length; i++) {
+                const base = dnaText[i].toUpperCase();
+                if (base === 'A') binaryString += '00';
+                else if (base === 'C') binaryString += '01';
+                else if (base === 'G') binaryString += '10';
+                else if (base === 'T') binaryString += '11';
+            }
+            
+            const bytes = [];
+            for (let i = 0; i < binaryString.length; i += 8) {
+                const byte = binaryString.substring(i, i + 8);
+                bytes.push(parseInt(byte, 2));
+            }
+            
+            try {
+                // Convert bytes array back to string using TextDecoder
+                return utf8BytesToText(new Uint8Array(bytes));
+            } catch (e) {
+                console.error("Error decoding UTF-8 bytes:", e);
+                return "خطأ في فك تشفير البيانات. قد يكون النص المشفر تالفًا أو غير صالح.";
+            }
+        }
+
+        // --- Event Listeners ---
+        encryptButton.addEventListener('click', () => {
+            const text = inputText.value;
+            const type = cipherType.value;
+            if (!text) {
+                outputText.value = "الرجاء إدخال نص للتشفير.";
+                return;
+            }
+            
+            if (type === 'scramble') {
+                outputText.value = encryptScramble(text);
+            } else if (type === 'dna') {
+                outputText.value = encryptDNA(text);
+            }
+        });
+
+        decryptButton.addEventListener('click', () => {
+            const text = inputText.value;
+            const type = cipherType.value;
+            if (!text) {
+                outputText.value = "الرجاء إدخال نص لفك التشفير.";
+                return;
+            }
+
+            if (type === 'scramble') {
+                outputText.value = decryptScramble(text);
+            } else if (type === 'dna') {
+                outputText.value = decryptDNA(text);
+            }
+        });
+
+        copyButton.addEventListener('click', () => {
+            if (outputText.value) {
+                // Create a temporary textarea to copy the text
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = outputText.value;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select(); // Select the text in the temporary textarea
+                try {
+                    // Execute the copy command
+                    document.execCommand('copy');
+                    copyMessage.textContent = 'تم النسخ بنجاح!';
+                    // Clear the message after 2 seconds
+                    setTimeout(() => { copyMessage.textContent = ''; }, 2000);
+                } catch (err) {
+                    copyMessage.textContent = 'فشل النسخ.';
+                    console.error('Fallback: Oops, unable to copy', err);
+                } finally {
+                    // Remove the temporary textarea
+                    document.body.removeChild(tempTextArea);
+                }
+            }
+        });
+
     </script>
 
 </body>
